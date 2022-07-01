@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import CalendarComponent from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const Calendar = () => {
+  const [value, onChange] = useState(new Date());
+
   return (
-    <div>
-      <h1>calendar</h1>
+    <div className="flex justify-center items-center ">
+      <CalendarComponent onChange={onChange} value={value} />
     </div>
   );
 };

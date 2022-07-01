@@ -1,14 +1,35 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import fetcher from "../api/axios.config";
 
 const ToDo = () => {
+  const [task, setTask] = useState([]);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  const deleteTask = async (id) => {
+    await fetcher.delete(`/delete-task/${id}`);
+    let newTask;
+    task.forEach((item, index, arr) => {
+      if (index !== id) {
+        newTask.push(item);
+      }
+      setTask(newTask);
+    });
+    console.log(id);
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get-task")
+      .then((res) => res.json())
+      .then((data) => setTask(data));
+    console.log(task);
+  });
 
   const onSubmit = async (data) => {
     const res = await fetcher.post("/insert-task", data);
@@ -37,6 +58,44 @@ const ToDo = () => {
           className="border w-24 h-12 text-primary ml-8 rounded-2xl"
         />
       </form>
+      <div class="overflow-x-auto w-full px-32 mt-16">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>
+                <label></label>
+              </th>
+              <th>Task</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          {task.map((t) => (
+            <tbody key={t._id}>
+              <tr>
+                <th>
+                  <label>
+                    <input type="checkbox" class="checkbox" />
+                  </label>
+                </th>
+
+                <td>{t.task}</td>
+                <td>
+                  <button class="btn btn-ghost btn-xs">+</button>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-ghost btn-xs"
+                    onClick={() => deleteTask(t._id)}
+                  >
+                    X
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </table>
+      </div>
     </div>
   );
 };
