@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import fetcher from "../api/axios.config";
+
 
 const CompletedTask = () => {
   const [task, setTask] = useState([]);

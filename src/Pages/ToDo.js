@@ -21,11 +21,28 @@ const ToDo = () => {
       }
       setTask(newTask);
     });
-    console.log(id);
+  };
+
+  const updateTask = async (id) => {
+    <p>skjfkjfkdj</p>;
+  };
+
+  const handleCompleteTask = (id) => {
+    fetch(`http://localhost:5000/update-task/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        completeTask: true,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/get-task")
+    fetch(`http://localhost:5000/get-task?completeTask===false`)
       .then((res) => res.json())
       .then((data) => setTask(data));
     console.log(task);
@@ -75,13 +92,22 @@ const ToDo = () => {
               <tr>
                 <th>
                   <label>
-                    <input type="checkbox" class="checkbox" />
+                    <input
+                      type="checkbox"
+                      class="checkbox"
+                      onClick={() => handleCompleteTask(t._id)}
+                    />
                   </label>
                 </th>
 
                 <td>{t.task}</td>
                 <td>
-                  <button class="btn btn-ghost btn-xs">+</button>
+                  <button
+                    class="btn btn-ghost btn-xs"
+                    onClick={() => updateTask(t._id)}
+                  >
+                    +
+                  </button>
                 </td>
                 <td>
                   <button

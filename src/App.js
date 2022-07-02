@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import CompletedTask from "./Pages/CompletedTask";
 import Calendar from "./Pages/Calendar";
 import ToDo from "./Pages/ToDo";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/to-do" element={<ToDo></ToDo>}></Route>
         </Routes>
       </Navbar>
+      <Footer></Footer>
     </div>
   );
 }
